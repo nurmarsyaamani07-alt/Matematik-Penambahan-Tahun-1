@@ -1,0 +1,1595 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matematik Tahun 1: Penambahan dalam Lingkungan 100 | EDUP6023</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Fredoka (Tajuk ceria) & Nunito (Teks mudah baca untuk Tahun 1) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Tone.js untuk kesan bunyi interaktif tanpa pautan luar -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        display: ['Fredoka', 'sans-serif'],
+                        sans: ['Nunito', 'sans-serif'],
+                    },
+                    colors: {
+                        cream: '#FFFDF7',
+                        pastelBlue: '#E0F2FE',
+                        pastelPink: '#FCE7F3',
+                        pastelGreen: '#DCFCE7',
+                        pastelYellow: '#FEF9C3',
+                        pastelPurple: '#F3E8FF',
+                        ink: '#1E293B',
+                        carrot: '#F97316',
+                        bunnyPink: '#EC4899'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Gaya khusus dan animasi lembut (Prinsip CASPER: Repetition & Emphasis) */
+        body {
+            background-color: #FFFDF7;
+            color: #1E293B;
+            font-family: 'Nunito', sans-serif;
+            overflow-x: hidden;
+        }
+        h1, h2, h3, .font-display {
+            font-family: 'Fredoka', sans-serif;
+        }
+        @keyframes hop {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-16px) scale(1.05); }
+        }
+        .animate-hop {
+            animation: hop 0.6s ease-in-out;
+        }
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-6px); }
+        }
+        @keyframes singleStepHop {
+            0% { transform: translate(-24px, 0) scale(0.95); }
+            50% { transform: translate(-12px, -24px) scale(1.15); }
+            100% { transform: translate(0, 0) scale(1); }
+        }
+        .animate-step-hop {
+            animation: singleStepHop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        @keyframes confettiPop {
+            0% { opacity: 1; transform: translateY(0) scale(0.8); }
+            100% { opacity: 0; transform: translateY(-35px) scale(1.3); }
+        }
+        .confetti-burst {
+            animation: confettiPop 0.9s ease-out forwards;
+        }
+        .animate-float {
+            animation: floatSlow 3s ease-in-out infinite;
+        }
+        .card-casper {
+            border: 2px solid #E2E8F0;
+            box-shadow: 0 6px 0 #CBD5E1;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+        .btn-3d {
+            transition: all 0.12s ease;
+            box-shadow: 0 4px 0 rgba(0,0,0,0.18);
+        }
+        .btn-3d:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 rgba(0,0,0,0.18);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #F1F5F9; }
+        ::-webkit-scrollbar-thumb { background: #94A3B8; border-radius: 9999px; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-pink-200 selection:text-ink">
+
+    <!-- KOTAK MESEJ NOTIFIKASI (Ganti alert()) -->
+    <div id="toast-box" class="fixed top-20 right-4 z-50 hidden max-w-sm bg-slate-900 text-white px-5 py-3.5 rounded-2xl shadow-xl border-2 border-amber-400 flex items-center gap-3 transition-all">
+        <span id="toast-icon" class="text-2xl">🌟</span>
+        <p id="toast-msg" class="text-sm font-bold leading-snug"></p>
+    </div>
+
+    <!-- HEADER & NAVIGASI UTAMA (Prinsip CASPER: Alignment, Contrast & Repetition) -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b-2 border-sky-200 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex flex-col lg:flex-row items-center justify-between gap-3">
+            <!-- Logo & Tajuk Kursus -->
+            <div class="flex items-center gap-3 cursor-pointer" onclick="switchTab('utama')">
+                <div class="w-12 h-12 rounded-2xl bg-pink-100 border-2 border-pink-300 flex items-center justify-center shadow-sm animate-float">
+                    <!-- SVG Maskot Arnab Comel -->
+                    <svg class="w-9 h-9" viewBox="0 0 64 64" fill="none">
+                        <ellipse cx="23" cy="18" rx="5" ry="14" fill="#FFFFFF" stroke="#334155" stroke-width="2.5"/>
+                        <ellipse cx="23" cy="19" rx="2.5" ry="9" fill="#FBCFE8"/>
+                        <ellipse cx="41" cy="18" rx="5" ry="14" fill="#FFFFFF" stroke="#334155" stroke-width="2.5"/>
+                        <ellipse cx="41" cy="19" rx="2.5" ry="9" fill="#FBCFE8"/>
+                        <circle cx="32" cy="40" r="17" fill="#FFFFFF" stroke="#334155" stroke-width="2.5"/>
+                        <circle cx="26" cy="37" r="2.2" fill="#1E293B"/>
+                        <circle cx="38" cy="37" r="2.2" fill="#1E293B"/>
+                        <ellipse cx="32" cy="42" rx="3" ry="2" fill="#F472B6"/>
+                        <path d="M28 46 Q32 49 36 46" stroke="#334155" stroke-width="2" stroke-linecap="round"/>
+                        <circle cx="21" cy="43" r="3" fill="#FBCFE8" opacity="0.7"/>
+                        <circle cx="43" cy="43" r="3" fill="#FBCFE8" opacity="0.7"/>
+                    </svg>
+                </div>
+                <div>
+                    <span class="inline-block text-[11px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-sky-100 text-sky-800">Matematik Tahun 1 • EDUP6023</span>
+                    <h1 class="text-lg sm:text-xl font-bold text-slate-800 leading-tight">Penambahan dalam Lingkungan 100</h1>
+                </div>
+            </div>
+
+            <!-- Menu Navigasi 5 Halaman -->
+            <nav class="flex flex-wrap justify-center gap-1.5 sm:gap-2" aria-label="Navigasi Utama">
+                <button onclick="switchTab('utama')" id="nav-utama" class="nav-btn px-3 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition flex items-center gap-1.5 bg-sky-600 text-white shadow-sm">
+            <!-- Menu Navigasi 4 Halaman Utama (Berfokuskan Murid) -->
+            <nav class="flex flex-wrap justify-center gap-1.5 sm:gap-2" aria-label="Navigasi Utama">
+                <button onclick="switchTab('utama')" id="nav-utama" class="nav-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition flex items-center gap-1.5 bg-sky-600 text-white shadow-sm">
+                    <span>🏠</span> Utama
+                </button>
+                <button onclick="switchTab('induksi')" id="nav-induksi" class="nav-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition flex items-center gap-1.5 bg-slate-100 text-slate-700 hover:bg-sky-100">
+                    <span>🥕</span> 1. Set Induksi
+                </button>
+                <button onclick="switchTab('aktiviti')" id="nav-aktiviti" class="nav-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition flex items-center gap-1.5 bg-slate-100 text-slate-700 hover:bg-emerald-100">
+                    <span>🐰</span> 2. OPD & Aktiviti
+                </button>
+                <button onclick="switchTab('pentaksiran')" id="nav-pentaksiran" class="nav-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition flex items-center gap-1.5 bg-slate-100 text-slate-700 hover:bg-pink-100">
+                    <span>🏆</span> 3. Kuiz & Refleksi
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- KANDUNGAN UTAMA (SINGLE-PAGE TAB CONTAINER) -->
+    <main class="flex-grow max-w-6xl w-full mx-auto px-4 py-6 sm:py-8">
+
+        <!-- ===================================================================== -->
+        <!-- HALAMAN UTAMA: PENGENALAN, DSKP, MOD PENYAMPAIAN & PERANAN            -->
+        <!-- ===================================================================== -->
+        <section id="tab-utama" class="tab-content space-y-8">
+            <!-- Hero Banner -->
+            <div class="rounded-3xl bg-gradient-to-br from-sky-100 via-pink-50 to-amber-100 border-2 border-sky-200 p-6 sm:p-10 shadow-sm relative overflow-hidden">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center relative z-10">
+                    <div class="md:col-span-8 space-y-4">
+                        <div class="inline-flex items-center gap-2 bg-white/90 border border-pink-200 px-3.5 py-1.5 rounded-full text-xs font-extrabold text-pink-700 shadow-sm">
+                            <span>✨ Ruang Pembelajaran Multimedia Interaktif</span>
+                        </div>
+                        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 leading-tight">
+                            Matematik Tahun 1: <span class="text-sky-700">Penambahan dalam Lingkungan 100</span>
+                        </h2>
+                        <p class="text-base sm:text-lg text-slate-700 font-semibold leading-relaxed">
+                            Selamat datang ke dunia nombor bersama <strong>Si Arnab</strong>! Mari belajar mengira, melompat di atas garis nombor, dan menyelesaikan cabaran tambah dengan seronok.
+                        </p>
+                        <div class="pt-2 flex flex-wrap gap-3">
+                            <button onclick="switchTab('induksi')" class="btn-3d bg-orange-500 hover:bg-orange-600 text-white font-display text-base sm:text-lg px-6 py-3 rounded-2xl flex items-center gap-2">
+                                <span>🚀 Mula Belajar Sekarang</span>
+                            </button>
+                            <button onclick="switchTab('aktiviti')" class="btn-3d bg-white hover:bg-sky-50 text-sky-800 border-2 border-sky-300 font-display text-base sm:text-lg px-5 py-3 rounded-2xl flex items-center gap-2">
+                                <span>🎮 Terus ke Permainan OPD</span>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Ilustrasi SVG Maskot Arnab Besar -->
+                    <div class="md:col-span-4 flex justify-center">
+                        <div class="bg-white/80 p-5 rounded-3xl border-2 border-white shadow-md text-center">
+                            <svg class="w-40 h-40 mx-auto animate-float" viewBox="0 0 120 120" fill="none">
+                                <!-- Telinga -->
+                                <ellipse cx="44" cy="30" rx="9" ry="24" fill="#FFFFFF" stroke="#1E293B" stroke-width="3"/>
+                                <ellipse cx="44" cy="32" rx="4.5" ry="16" fill="#FBCFE8"/>
+                                <ellipse cx="76" cy="30" rx="9" ry="24" fill="#FFFFFF" stroke="#1E293B" stroke-width="3"/>
+                                <ellipse cx="76" cy="32" rx="4.5" ry="16" fill="#FBCFE8"/>
+                                <!-- Kepala -->
+                                <circle cx="60" cy="68" r="30" fill="#FFFFFF" stroke="#1E293B" stroke-width="3"/>
+                                <!-- Reben -->
+                                <path d="M50 42 L60 47 L70 42 L68 51 L60 47 L52 51 Z" fill="#F43F5E" stroke="#1E293B" stroke-width="2"/>
+                                <!-- Mata & Hidung -->
+                                <circle cx="49" cy="64" r="3.5" fill="#1E293B"/>
+                                <circle cx="71" cy="64" r="3.5" fill="#1E293B"/>
+                                <circle cx="50" cy="63" r="1.2" fill="#FFFFFF"/>
+                                <circle cx="72" cy="63" r="1.2" fill="#FFFFFF"/>
+                                <ellipse cx="60" cy="72" rx="4.5" ry="3" fill="#EC4899"/>
+                                <path d="M53 79 Q60 85 67 79" stroke="#1E293B" stroke-width="2.5" stroke-linecap="round"/>
+                                <!-- Pipi -->
+                                <circle cx="41" cy="74" r="5" fill="#FBCFE8"/>
+                                <circle cx="79" cy="74" r="5" fill="#FBCFE8"/>
+                                <!-- Lobak -->
+                                <path d="M84 95 L106 82 L98 104 Z" fill="#F97316" stroke="#1E293B" stroke-width="2.5"/>
+                                <path d="M104 83 C108 76, 114 78, 108 85 C115 84, 115 90, 107 88" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round"/>
+                            </svg>
+                            <p class="mt-2 text-xs font-extrabold text-slate-600 bg-amber-100 px-3 py-1 rounded-full inline-block">Disediakan oleh: Nurmarsya Amani</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Maklumat Kurikulum DSKP & Objektif Pembelajaran -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Kad DSKP -->
+                <div class="card-casper bg-white rounded-3xl p-6 space-y-4">
+                    <div class="flex items-center gap-3 border-b-2 border-slate-100 pb-3">
+                        <span class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-xl font-bold">📘</span>
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-800">Dokumen Standard Kurikulum (DSKP)</h3>
+                            <p class="text-xs font-bold text-slate-500">Matematik Tahun 1 • Bidang Nombor dan Operasi</p>
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-4">
+                            <span class="text-xs font-extrabold uppercase text-emerald-800 tracking-wide">Standard Kandungan (SK)</span>
+                            <p class="text-base font-extrabold text-slate-800 mt-1">2.2 Tambah dalam lingkungan 100</p>
+                        </div>
+                        <div class="bg-sky-50 border border-sky-200 rounded-2xl p-4 space-y-2">
+                            <span class="text-xs font-extrabold uppercase text-sky-800 tracking-wide">Standard Pembelajaran (SP)</span>
+                            <ul class="space-y-1.5 text-sm font-bold text-slate-700">
+                                <li class="flex items-start gap-2">
+                                    <span class="bg-sky-600 text-white text-xs px-2 py-0.5 rounded-md mt-0.5">2.2.1</span>
+                                    <span>Menambah dalam lingkungan fakta asas.</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="bg-sky-600 text-white text-xs px-2 py-0.5 rounded-md mt-0.5">2.2.2</span>
+                                    <span>Menambah dua nombor, hasil tambah dalam lingkungan 100.</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kad Objektif Pembelajaran -->
+                <div class="card-casper bg-white rounded-3xl p-6 space-y-4">
+                    <div class="flex items-center gap-3 border-b-2 border-slate-100 pb-3">
+                        <span class="w-10 h-10 rounded-xl bg-pink-100 text-pink-700 flex items-center justify-center text-xl font-bold">🎯</span>
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-800">Objektif Pembelajaran</h3>
+                            <p class="text-xs font-bold text-slate-500">Pada akhir pembelajaran, murid dapat:</p>
+                        </div>
+                    </div>
+                    <ol class="space-y-3">
+                        <li class="flex items-center gap-3 bg-pink-50/70 border border-pink-200 p-3.5 rounded-2xl">
+                            <span class="w-8 h-8 rounded-full bg-pink-600 text-white font-display font-bold flex items-center justify-center shrink-0">1</span>
+                            <span class="text-sm sm:text-base font-bold text-slate-800">Mengenal pasti operasi penambahan dalam lingkungan 100.</span>
+                        </li>
+                        <li class="flex items-center gap-3 bg-amber-50/70 border border-amber-200 p-3.5 rounded-2xl">
+                            <span class="w-8 h-8 rounded-full bg-amber-500 text-white font-display font-bold flex items-center justify-center shrink-0">2</span>
+                            <span class="text-sm sm:text-base font-bold text-slate-800">Menyelesaikan penambahan dalam lingkungan 100 dengan betul.</span>
+                        </li>
+                        <li class="flex items-center gap-3 bg-purple-50/70 border border-purple-200 p-3.5 rounded-2xl">
+                            <span class="w-8 h-8 rounded-full bg-purple-600 text-white font-display font-bold flex items-center justify-center shrink-0">3</span>
+                            <span class="text-sm sm:text-base font-bold text-slate-800">Mengaplikasikan penambahan dalam situasi kehidupan seharian.</span>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- Persekitaran Pembelajaran Dalam Talian: Mod Penyampaian & Peranan (Keperluan Rubrik HPP2) -->
+            <div class="card-casper bg-white rounded-3xl p-6 sm:p-8 space-y-6">
+                <div class="text-center max-w-2xl mx-auto">
+                    <span class="text-xs font-extrabold uppercase tracking-wider bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full">Ekosistem Pembelajaran Digital</span>
+                    <h3 class="text-2xl font-bold text-slate-800 mt-2">Mod Penyampaian & Peranan Pengguna</h3>
+                    <p class="text-sm text-slate-600 font-semibold mt-1">Direka bentuk mengikut profil 20 orang murid Tahun 1 (60% Tahap Tinggi, 20% Sederhana, 20% Rendah) yang memerlukan visual konkrit dan maklum balas segera.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                    <!-- Mod Penyampaian -->
+                    <div class="bg-sky-50 border-2 border-sky-200 rounded-2xl p-5 space-y-2.5">
+                        <div class="w-11 h-11 rounded-2xl bg-sky-600 text-white flex items-center justify-center text-xl">🌐</div>
+                        <h4 class="text-lg font-bold text-sky-950">Mod Penyampaian</h4>
+                        <p class="text-sm text-slate-700 font-semibold leading-relaxed">
+                            Menyokong <strong>Pembelajaran Teradun (Blended Learning)</strong> secara bersemuka di makmal komputer serta <strong>Pembelajaran Tidak Segerak (Asynchronous)</strong> untuk ulang kaji kendiri di rumah pada bila-bila masa.
+                        </p>
+                    </div>
+                    <!-- Peranan Guru -->
+                    <div class="bg-emerald-50 border-2 border-emerald-200 rounded-2xl p-5 space-y-2.5">
+                        <div class="w-11 h-11 rounded-2xl bg-emerald-600 text-white flex items-center justify-center text-xl">👩‍🏫</div>
+                        <h4 class="text-lg font-bold text-emerald-950">Peranan Guru</h4>
+                        <p class="text-sm text-slate-700 font-semibold leading-relaxed">
+                            Bertindak sebagai <strong>fasilitator</strong> yang membimbing penerokaan murid, memantau skor pentaksiran secara masa nyata, serta memberikan bimbingan berfokus kepada murid tahap penguasaan rendah.
+                        </p>
+                    </div>
+                    <!-- Peranan Murid -->
+                    <div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-5 space-y-2.5">
+                        <div class="w-11 h-11 rounded-2xl bg-amber-500 text-white flex items-center justify-center text-xl">🧒</div>
+                        <h4 class="text-lg font-bold text-amber-950">Peranan Murid</h4>
+                        <p class="text-sm text-slate-700 font-semibold leading-relaxed">
+                            Berperanan sebagai <strong>peneroka aktif</strong> yang menonton video interaktif, bermain simulasi garis nombor secara berpasangan/kendiri, berinteraksi dengan AI, dan menulis refleksi.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================== -->
+        <!-- HALAMAN 1: SET INDUKSI & PENERANGAN KONSEP                            -->
+        <!-- ===================================================================== -->
+        <section id="tab-induksi" class="tab-content hidden space-y-8">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-sky-100 border-2 border-sky-200 rounded-3xl p-6">
+                <div>
+                    <span class="text-xs font-extrabold uppercase bg-sky-700 text-white px-3 py-1 rounded-full">Segmen 1 • Model ASSURE</span>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mt-2">Set Induksi: Jom Perhati & Kira Lobak Merah!</h2>
+                    <p class="text-sm sm:text-base font-semibold text-slate-700 mt-1">Tonton animasi penerangan konsep di bawah dan jawab soalan pencetus minda.</p>
+                </div>
+                <button onclick="speakText('Hai kawan-kawan! Mari kita lihat berapa banyak lobak merah yang Si Arnab kumpulkan hari ini. Tekan butang main animasi ya!')" class="btn-3d bg-white text-sky-800 border-2 border-sky-300 px-4 py-2.5 rounded-2xl font-extrabold text-sm flex items-center gap-2 shrink-0">
+                    <span>🔊</span> Dengar Arahan
+                </button>
+            </div>
+
+            <!-- Simulasi Video / Animasi Penerangan Konsep Lobak Merah -->
+            <div class="card-casper bg-white rounded-3xl p-6 space-y-5">
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                    <h3 class="text-xl font-bold text-slate-800 flex items-center gap-2">
+                        <span>🎬</span> Video Animasi Konsep Penambahan
+                    </h3>
+                    <span class="text-xs font-extrabold bg-amber-100 text-amber-800 px-3 py-1 rounded-full">Konsep: Menggabungkan Dua Kumpulan Objek</span>
+                </div>
+
+                <!-- Pentas Animasi Konkrit -->
+                <div class="bg-gradient-to-b from-sky-200 via-sky-100 to-emerald-200 border-2 border-slate-300 rounded-2xl p-6 min-h-[290px] flex flex-col justify-between relative overflow-hidden">
+                    <!-- Awan hiasan -->
+                    <div class="flex justify-between text-3xl opacity-75 select-none">
+                        <span>☁️</span><span>☀️</span><span>☁️</span>
+                    </div>
+
+                    <!-- Paparan Visual Lobak Merah -->
+                    <div id="intro-stage" class="my-4 grid grid-cols-1 md:grid-cols-11 gap-4 items-center text-center">
+                        <!-- Bakul Kiri (3 Lobak) -->
+                        <div id="basket-left" class="md:col-span-4 bg-white/90 border-2 border-orange-300 rounded-2xl p-4 shadow-sm transition-all duration-500">
+                            <p class="text-xs font-extrabold text-orange-700 uppercase mb-2">Bakul Pertama</p>
+                            <div class="flex justify-center gap-2 text-4xl sm:text-5xl" id="carrots-left">
+                                <span>🥕</span><span>🥕</span><span>🥕</span>
+                            </div>
+                            <p class="mt-2 font-display text-2xl font-bold text-slate-800">3 Lobak</p>
+                        </div>
+
+                        <!-- Simbol Tambah -->
+                        <div class="md:col-span-1 flex justify-center">
+                            <span id="plus-badge" class="w-12 h-12 rounded-full bg-pink-600 text-white font-display text-3xl font-bold flex items-center justify-center shadow-md">+</span>
+                        </div>
+
+                        <!-- Bakul Kanan (2 Lobak) -->
+                        <div id="basket-right" class="md:col-span-4 bg-white/90 border-2 border-orange-300 rounded-2xl p-4 shadow-sm transition-all duration-500">
+                            <p class="text-xs font-extrabold text-orange-700 uppercase mb-2">Bakul Kedua</p>
+                            <div class="flex justify-center gap-2 text-4xl sm:text-5xl" id="carrots-right">
+                                <span>🥕</span><span>🥕</span>
+                            </div>
+                            <p class="mt-2 font-display text-2xl font-bold text-slate-800">2 Lobak</p>
+                        </div>
+
+                        <!-- Jumlah Keseluruhan -->
+                        <div id="basket-total" class="md:col-span-2 bg-emerald-600 text-white border-2 border-emerald-800 rounded-2xl p-4 shadow-md transition-all duration-500">
+                            <p class="text-xs font-extrabold uppercase text-emerald-100">Jumlah</p>
+                            <p id="total-display" class="font-display text-3xl sm:text-4xl font-bold mt-1">? </p>
+                            <p class="text-xs font-bold mt-1">Semuanya</p>
+                        </div>
+                    </div>
+
+                    <!-- Sarikata / Teks Panduan Animasi -->
+                    <div class="bg-slate-900/85 text-white px-4 py-3 rounded-xl text-center">
+                        <p id="intro-caption" class="text-sm sm:text-base font-bold">
+                            Klik butang <strong>"Mainkan Penerangan"</strong> di bawah untuk melihat bagaimana 3 lobak merah ditambah dengan 2 lobak merah!
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Kawalan Animasi -->
+                <div class="flex flex-wrap items-center justify-center gap-3">
+                    <button onclick="playIntroAnimation()" class="btn-3d bg-emerald-600 hover:bg-emerald-700 text-white font-display px-6 py-3 rounded-2xl text-base flex items-center gap-2">
+                        <span>▶️</span> Mainkan Penerangan
+                    </button>
+                    <button onclick="resetIntroAnimation()" class="btn-3d bg-slate-200 hover:bg-slate-300 text-slate-800 font-display px-5 py-3 rounded-2xl text-base flex items-center gap-2">
+                        <span>🔄</span> Ulang Semula
+                    </button>
+                </div>
+            </div>
+
+            <!-- Pentaksiran Formatif Awal: 3 Soalan Pencetus Minda -->
+            <div class="card-casper bg-white rounded-3xl p-6 space-y-5">
+                <div class="border-b-2 border-slate-100 pb-3">
+                    <span class="text-xs font-extrabold uppercase bg-pink-100 text-pink-800 px-3 py-1 rounded-full">Pentaksiran Formatif Awal</span>
+                    <h3 class="text-xl font-bold text-slate-800 mt-2">Soalan Pencetus Minda</h3>
+                    <p class="text-sm text-slate-600 font-semibold">Pilih jawapan yang betul berdasarkan situasi lobak merah Si Arnab di atas:</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                    <!-- Soalan 1 -->
+                    <div class="bg-amber-50/70 border-2 border-amber-200 rounded-2xl p-4 space-y-3">
+                        <p class="font-extrabold text-slate-800 text-sm">1. Berapakah jumlah lobak merah yang kamu nampak dalam kedua-dua bakul?</p>
+                        <div class="grid grid-cols-3 gap-2">
+                            <button onclick="checkFormative(1, false, this)" class="f-btn-1 bg-white border-2 border-slate-300 py-2 rounded-xl font-display font-bold hover:bg-amber-100">4</button>
+                            <button onclick="checkFormative(1, true, this)" class="f-btn-1 bg-white border-2 border-slate-300 py-2 rounded-xl font-display font-bold hover:bg-amber-100">5</button>
+                            <button onclick="checkFormative(1, false, this)" class="f-btn-1 bg-white border-2 border-slate-300 py-2 rounded-xl font-display font-bold hover:bg-amber-100">6</button>
+                        </div>
+                        <p id="f-msg-1" class="text-xs font-extrabold min-h-[18px]"></p>
+                    </div>
+
+                    <!-- Soalan 2 -->
+                    <div class="bg-sky-50/70 border-2 border-sky-200 rounded-2xl p-4 space-y-3">
+                        <p class="font-extrabold text-slate-800 text-sm">2. Apakah operasi yang perlu kita gunakan untuk mencari jumlah semuanya?</p>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="checkFormative(2, true, this)" class="f-btn-2 bg-white border-2 border-slate-300 py-2 rounded-xl font-display font-bold hover:bg-sky-100">Tambah (+)</button>
+                            <button onclick="checkFormative(2, false, this)" class="f-btn-2 bg-white border-2 border-slate-300 py-2 rounded-xl font-display font-bold hover:bg-sky-100">Tolak (-)</button>
+                        </div>
+                        <p id="f-msg-2" class="text-xs font-extrabold min-h-[18px]"></p>
+                    </div>
+
+                    <!-- Soalan 3 -->
+                    <div class="bg-purple-50/70 border-2 border-purple-200 rounded-2xl p-4 space-y-3">
+                        <p class="font-extrabold text-slate-800 text-sm">3. Jika ditambah lagi 10 lobak merah (5 + 10), berapakah jawapan kamu?</p>
+                        <div class="grid grid-cols-3 gap-2">
+                            <button onclick="checkFormative(3, false, this)" class="f-btn-3 bg-white border-2 border-slate-300 py-2 rounded-xl font-display font-bold hover:bg-purple-100">12</button>
+                            <button onclick="checkFormative(3, true, this)" class="f-btn-3 bg-white border-2 border-slate-300 py-2 rounded-xl font-display font-bold hover:bg-purple-100">15</button>
+                            <button onclick="checkFormative(3, false, this)" class="f-btn-3 bg-white border-2 border-slate-300 py-2 rounded-xl font-display font-bold hover:bg-purple-100">51</button>
+                        </div>
+                        <p id="f-msg-3" class="text-xs font-extrabold min-h-[18px]"></p>
+                    </div>
+                </div>
+
+                <div class="flex justify-end pt-2">
+                    <button onclick="switchTab('aktiviti')" class="btn-3d bg-sky-600 hover:bg-sky-700 text-white font-display px-6 py-3 rounded-2xl">
+                        Teruskan ke Langkah 2: OPD Interaktif ➔
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================== -->
+        <!-- HALAMAN 2: AKTIVITI UTAMA & OPD INTERAKTIF (VIDEO POP-UP, GAME, AI)    -->
+        <!-- ===================================================================== -->
+        <section id="tab-aktiviti" class="tab-content hidden space-y-8">
+            <div class="bg-emerald-100 border-2 border-emerald-200 rounded-3xl p-6">
+                <span class="text-xs font-extrabold uppercase bg-emerald-700 text-white px-3 py-1 rounded-full">Segmen 2 • Objek Pembelajaran Digital (OPD)</span>
+                <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mt-2">Aktiviti Utama: Video Interaktif, Bunny Jumping & Cikgu Arnab AI</h2>
+                <p class="text-sm sm:text-base font-semibold text-slate-700 mt-1">Selesaikan ketiga-tiga stesen interaktif di bawah secara berpasangan atau individu.</p>
+            </div>
+
+            <!-- STESEN A: VIDEO INTERAKTIF BERHENTIKAN SOALAN (EDPUZZLE/H5P STYLE) -->
+            <div class="card-casper bg-white rounded-3xl p-6 space-y-5">
+                <div class="flex flex-wrap items-center justify-between gap-2 border-b-2 border-slate-100 pb-3">
+                    <div>
+                        <span class="text-xs font-extrabold uppercase bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full">Stesen A • Video Interaktif</span>
+                        <h3 class="text-xl font-bold text-slate-800 mt-1">Strategi Garis Nombor & Tambah Nilai Tempat</h3>
+                    </div>
+                    <div class="text-xs font-extrabold bg-slate-100 px-3 py-1.5 rounded-xl text-slate-700">
+                        Hentian Kuiz Dijawab: <span id="video-quiz-count" class="text-indigo-700">0</span> / 3
+                    </div>
+                </div>
+
+                <!-- Pemain Video Simulasi Beranimasi -->
+                <div class="relative rounded-2xl bg-slate-900 border-4 border-slate-800 overflow-hidden shadow-lg">
+                    <!-- Kanvas Visual Pelajaran -->
+                    <div class="min-h-[280px] sm:min-h-[320px] p-6 flex flex-col items-center justify-center text-center bg-gradient-to-br from-indigo-950 via-slate-900 to-sky-950 text-white relative">
+                        <div id="video-visual-area" class="space-y-4 max-w-xl">
+                            <span class="text-5xl block">🎥</span>
+                            <h4 class="font-display text-2xl text-amber-300">Video Pengajaran Interaktif</h4>
+                            <p class="text-sm text-slate-200">Video ini akan berhenti secara automatik pada detik ke-<strong>4s</strong>, ke-<strong>9s</strong>, dan ke-<strong>14s</strong> untuk menguji kefahaman anda!</p>
+                        </div>
+
+                        <!-- OVERLAY SOALAN POP-UP (Muncul apabila video berhenti) -->
+                        <div id="video-popup-overlay" class="hidden absolute inset-0 bg-slate-950/95 backdrop-blur-sm p-5 flex items-center justify-center z-20">
+                            <div class="bg-white text-slate-800 rounded-2xl p-5 sm:p-6 max-w-md w-full border-4 border-amber-400 shadow-2xl space-y-4 text-left">
+                                <div class="flex items-center justify-between">
+                                    <span class="bg-amber-100 text-amber-800 text-xs font-extrabold px-2.5 py-1 rounded-full">⏸️ Hentian Kuiz Interaktif</span>
+                                    <span id="vp-step-badge" class="text-xs font-bold text-slate-500">Soalan 1/3</span>
+                                </div>
+                                <h4 id="vp-question" class="font-display text-lg sm:text-xl font-bold text-slate-900"></h4>
+                                <div id="vp-options" class="space-y-2"></div>
+                                <p id="vp-feedback" class="text-xs font-extrabold min-h-[18px]"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bar Kawalan Pemain Video -->
+                    <div class="bg-slate-800 px-4 py-3 flex flex-col gap-2">
+                        <!-- Progress Bar dengan Penanda Checkpoint -->
+                        <div class="relative w-full h-3 bg-slate-700 rounded-full overflow-visible">
+                            <div id="video-progress-bar" class="h-full bg-amber-400 rounded-full transition-all duration-200" style="width: 0%"></div>
+                            <!-- Penanda 3 Checkpoint (26%, 60%, 93%) -->
+                            <span title="Soalan 1 (4s)" class="absolute top-1/2 -translate-y-1/2 w-3.5 h-3.5 rounded-full bg-pink-500 border-2 border-white" style="left: 26%"></span>
+                            <span title="Soalan 2 (9s)" class="absolute top-1/2 -translate-y-1/2 w-3.5 h-3.5 rounded-full bg-pink-500 border-2 border-white" style="left: 60%"></span>
+                            <span title="Soalan 3 (14s)" class="absolute top-1/2 -translate-y-1/2 w-3.5 h-3.5 rounded-full bg-pink-500 border-2 border-white" style="left: 93%"></span>
+                        </div>
+                        <div class="flex items-center justify-between text-white text-xs font-bold">
+                            <div class="flex items-center gap-2">
+                                <button id="video-play-btn" onclick="toggleInteractiveVideo()" class="bg-amber-400 hover:bg-amber-500 text-slate-900 font-extrabold px-4 py-1.5 rounded-xl flex items-center gap-1.5">
+                                    <span>▶️</span> Mula / Sambung Video
+                                </button>
+                                <button onclick="resetInteractiveVideo()" class="bg-slate-700 hover:bg-slate-600 px-3 py-1.5 rounded-xl">🔄 Ulang</button>
+                            </div>
+                            <span id="video-timer-label">00:00 / 00:15</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STESEN B: PERMAINAN INTERAKTIF "BUNNY JUMPING" + SENARAI SEMAK PROSES -->
+            <div class="card-casper bg-white rounded-3xl p-6 space-y-6">
+                <div class="flex flex-wrap items-center justify-between gap-2 border-b-2 border-slate-100 pb-3">
+                    <div>
+                        <span class="text-xs font-extrabold uppercase bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full">Stesen B • Simulasi Gamifikasi</span>
+                        <h3 class="text-xl font-bold text-slate-800 mt-1">Permainan Garis Nombor: Bunny Jumping!</h3>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="bg-amber-100 text-amber-900 font-display font-bold px-3.5 py-1.5 rounded-xl text-sm">
+                            ⭐ Skor: <span id="bunny-score">0</span>
+                        </span>
+                        <select id="bunny-mode" onchange="newBunnyQuestion()" class="bg-sky-50 border-2 border-sky-300 text-sky-900 font-bold text-xs sm:text-sm rounded-xl px-3 py-1.5">
+                            <option value="asas">Tahap 1: Fakta Asas (SP 2.2.1)</option>
+                            <option value="lingkungan100">Tahap 2: Lingkungan 100 (SP 2.2.2)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Paparan Soalan & Garis Nombor Interaktif (Lompat Satu-Satu) -->
+                <div class="bg-gradient-to-b from-sky-100 to-emerald-100 border-2 border-emerald-300 rounded-2xl p-5 sm:p-6 space-y-5">
+                    <div class="text-center space-y-2">
+                        <p class="text-xs font-extrabold uppercase text-emerald-800">Tekan butang "Lompat +1" satu demi satu, "Auto Lompat", atau klik nombor sasaran!</p>
+                        <div class="flex flex-wrap items-center justify-center gap-3 pt-1">
+                            <div class="bg-white border-2 border-slate-300 px-6 py-2.5 rounded-2xl shadow-sm">
+                                <span id="bunny-eq" class="font-display text-3xl sm:text-4xl font-bold text-slate-900">2 + 4 = ?</span>
+                            </div>
+                            <div class="bg-amber-100 border-2 border-amber-300 px-4 py-2.5 rounded-2xl">
+                                <span class="text-xs font-extrabold uppercase text-amber-800 block">Pembilang Lompatan</span>
+                                <span id="bunny-hop-counter" class="font-display text-xl font-bold text-amber-950">Lompatan: 0 / 4</span>
+                            </div>
+                        </div>
+                        <p id="bunny-hint-text" class="text-sm font-bold text-sky-900 pt-1">Mula di nombor 2, kemudian lompat 4 langkah ke kanan!</p>
+                    </div>
+
+                    <!-- Butang Kawalan Lompat Satu-Satu & Input Jawapan -->
+                    <div class="flex flex-wrap items-center justify-center gap-2.5">
+                        <button id="btn-hop-step" onclick="hopOneStep()" class="btn-3d bg-orange-500 hover:bg-orange-600 text-white font-display px-5 py-2.5 rounded-xl text-sm sm:text-base flex items-center gap-1.5">
+                            <span>🐇</span> Lompat +1
+                        </button>
+                        <button id="btn-auto-hop" onclick="startAutoHop()" class="btn-3d bg-sky-600 hover:bg-sky-700 text-white font-display px-5 py-2.5 rounded-xl text-sm sm:text-base flex items-center gap-1.5">
+                            <span>⏩</span> Auto Lompat
+                        </button>
+                        <button onclick="resetBunnyHops()" class="btn-3d bg-white hover:bg-slate-100 text-slate-700 border-2 border-slate-300 font-display px-4 py-2 rounded-xl text-sm">
+                            ↩️ Ulang Posisi
+                        </button>
+                        <div class="flex items-center gap-1.5 bg-white border-2 border-emerald-400 rounded-xl px-2.5 py-1">
+                            <input id="bunny-direct-input" type="number" placeholder="Jawapan" class="w-20 text-center font-display font-bold text-slate-800 outline-none text-sm">
+                            <button onclick="checkDirectBunnyInput()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs px-3 py-1.5 rounded-lg">Semak</button>
+                        </div>
+                    </div>
+
+                    <!-- Garis Nombor Interaktif dengan Lengkungan +1 -->
+                    <div class="relative pt-14 pb-3 px-2 overflow-x-auto">
+                        <div id="number-line-wrapper" class="min-w-[620px] relative mx-auto">
+                            <!-- SVG Lengkungan Lompatan +1 -->
+                            <svg id="hop-arcs-svg" class="w-full h-12 overflow-visible pointer-events-none block" preserveAspectRatio="none"></svg>
+                            <!-- Barisan Petak Nombor -->
+                            <div id="number-line-container" class="flex justify-between items-end relative border-b-4 border-emerald-700 pb-2 px-3">
+                                <!-- Dijana secara dinamik oleh JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap items-center justify-between gap-3">
+                        <p id="bunny-feedback" class="text-sm font-extrabold text-slate-800">Gunakan butang Lompat +1 atau klik nombor sasaran di atas 👆</p>
+                        <button onclick="newBunnyQuestion()" class="btn-3d bg-emerald-600 hover:bg-emerald-700 text-white font-display px-5 py-2.5 rounded-xl text-sm">
+                            Soalan Seterusnya ➔
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Pentaksiran Proses: Senarai Semak Murid Berpasangan (Daripada Infografik Tugasan 2) -->
+                <div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-5">
+                    <h4 class="font-display text-lg font-bold text-amber-950 flex items-center gap-2">
+                        <span>📋</span> Pentaksiran Proses (Senarai Semak Aktiviti Berpasangan)
+                    </h4>
+                    <p class="text-xs font-bold text-amber-800 mb-3">Tandakan setiap langkah yang telah kamu dan pasangan kamu lakukan semasa bermain Bunny Jumping:</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                        <label class="flex items-center gap-2.5 bg-white p-3 rounded-xl border border-amber-300 cursor-pointer hover:bg-amber-100/50">
+                            <input type="checkbox" onchange="checkProcessChecklist()" class="process-chk w-5 h-5 accent-emerald-600 rounded">
+                            <span class="text-xs sm:text-sm font-extrabold text-slate-800">1. Mengenal pasti operasi tambah</span>
+                        </label>
+                        <label class="flex items-center gap-2.5 bg-white p-3 rounded-xl border border-amber-300 cursor-pointer hover:bg-amber-100/50">
+                            <input type="checkbox" onchange="checkProcessChecklist()" class="process-chk w-5 h-5 accent-emerald-600 rounded">
+                            <span class="text-xs sm:text-sm font-extrabold text-slate-800">2. Mengira lompatan dengan betul</span>
+                        </label>
+                        <label class="flex items-center gap-2.5 bg-white p-3 rounded-xl border border-amber-300 cursor-pointer hover:bg-amber-100/50">
+                            <input type="checkbox" onchange="checkProcessChecklist()" class="process-chk w-5 h-5 accent-emerald-600 rounded">
+                            <span class="text-xs sm:text-sm font-extrabold text-slate-800">3. Berbincang dengan pasangan</span>
+                        </label>
+                        <label class="flex items-center gap-2.5 bg-white p-3 rounded-xl border border-amber-300 cursor-pointer hover:bg-amber-100/50">
+                            <input type="checkbox" onchange="checkProcessChecklist()" class="process-chk w-5 h-5 accent-emerald-600 rounded">
+                            <span class="text-xs sm:text-sm font-extrabold text-slate-800">4. Menerangkan strategi pengiraan</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================== -->
+        <!-- HALAMAN 3: E-PENTAKSIRAN GAMIFIKASI (QUIZIZZ) & KAD REFLEKTIF DIGITAL  -->
+        <!-- ===================================================================== -->
+        <section id="tab-pentaksiran" class="tab-content hidden space-y-8">
+            <div class="bg-pink-100 border-2 border-pink-200 rounded-3xl p-6">
+                <span class="text-xs font-extrabold uppercase bg-pink-700 text-white px-3 py-1 rounded-full">Segmen 3 • Aplikasi, Pengukuhan & Penutup</span>
+                <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mt-2">Cabaran Kuiz Gamifikasi & Kad Reflektif Digital</h2>
+                <p class="text-sm sm:text-base font-semibold text-slate-700 mt-1">Uji kepantasan mengira kamu dan kongsi pengalaman belajar hari ini pada papan kelas.</p>
+            </div>
+
+            <!-- KUIZ GAMIFIKASI ALA QUIZIZZ -->
+            <div class="card-casper bg-white rounded-3xl p-6 space-y-5">
+                <div class="flex flex-wrap items-center justify-between gap-2 border-b-2 border-slate-100 pb-3">
+                    <div>
+                        <span class="text-xs font-extrabold uppercase bg-purple-100 text-purple-800 px-3 py-1 rounded-full">e-Pentaksiran Gamifikasi</span>
+                        <h3 class="text-xl font-bold text-slate-800 mt-1">Cabaran Juara Tambah 100 (Gaya Quizizz)</h3>
+                    </div>
+                    <div id="quiz-hud" class="hidden flex items-center gap-3">
+                        <span class="bg-amber-100 text-amber-900 font-display font-bold px-3.5 py-1.5 rounded-xl text-sm">🔥 Streak: <span id="qz-streak">0</span></span>
+                        <span class="bg-purple-100 text-purple-900 font-display font-bold px-3.5 py-1.5 rounded-xl text-sm">💎 Mata: <span id="qz-points">0</span></span>
+                    </div>
+                </div>
+
+                <!-- Skrin Mula Kuiz -->
+                <div id="quiz-start-screen" class="bg-gradient-to-br from-purple-900 via-indigo-900 to-slate-900 text-white rounded-2xl p-8 text-center space-y-4">
+                    <span class="text-5xl block">🏆</span>
+                    <h4 class="font-display text-2xl sm:text-3xl text-amber-300">Sedia Untuk Cabaran 5 Soalan?</h4>
+                    <p class="text-sm text-purple-100 max-w-md mx-auto">Masukkan nama panggilan kamu untuk mula menjawab soalan penambahan dalam lingkungan 100 dengan maklum balas segera!</p>
+                    <div class="max-w-xs mx-auto space-y-3 pt-2">
+                        <input id="quiz-player-name" type="text" placeholder="Nama Panggilan Kamu..." class="w-full px-4 py-3 rounded-xl text-slate-900 font-bold text-center outline-none border-2 border-amber-400">
+                        <button onclick="startGamifiedQuiz()" class="btn-3d w-full bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-display text-lg py-3 rounded-xl">
+                            MULA KUIZ SEKARANG! 🚀
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Skrin Soalan Aktif Kuiz -->
+                <div id="quiz-play-screen" class="hidden bg-slate-900 text-white rounded-2xl p-6 space-y-5">
+                    <div class="flex items-center justify-between text-xs font-extrabold text-purple-300">
+                        <span id="qz-progress">Soalan 1 daripada 5</span>
+                        <span id="qz-timer" class="bg-rose-600 text-white px-3 py-1 rounded-full">⏱️ 20s</span>
+                    </div>
+                    <div class="bg-white/10 border border-white/20 rounded-2xl p-6 text-center">
+                        <h4 id="qz-question-text" class="font-display text-2xl sm:text-3xl text-white"></h4>
+                    </div>
+                    <div id="qz-options-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <!-- Butang pilihan jawapan berwarna-warni -->
+                    </div>
+                    <p id="qz-feedback-banner" class="text-center font-display text-base min-h-[24px]"></p>
+                </div>
+
+                <!-- Skrin Keputusan Akhir Kuiz -->
+                <div id="quiz-end-screen" class="hidden bg-gradient-to-br from-emerald-50 to-amber-50 border-2 border-emerald-300 rounded-2xl p-8 text-center space-y-4">
+                    <span class="text-6xl block">🎉</span>
+                    <h4 class="font-display text-2xl sm:text-3xl text-slate-900">Syabas, <span id="qz-final-name" class="text-pink-600">Murid</span>!</h4>
+                    <div class="flex justify-center gap-4">
+                        <div class="bg-white border-2 border-amber-300 px-5 py-3 rounded-2xl">
+                            <p class="text-xs font-extrabold text-slate-500 uppercase">Jumlah Mata</p>
+                            <p id="qz-final-score" class="font-display text-3xl font-bold text-amber-600">0</p>
+                        </div>
+                        <div class="bg-white border-2 border-emerald-300 px-5 py-3 rounded-2xl">
+                            <p class="text-xs font-extrabold text-slate-500 uppercase">Jawapan Betul</p>
+                            <p id="qz-final-correct" class="font-display text-3xl font-bold text-emerald-600">0/5</p>
+                        </div>
+                    </div>
+                    <button onclick="resetGamifiedQuiz()" class="btn-3d bg-purple-600 hover:bg-purple-700 text-white font-display px-6 py-3 rounded-2xl">
+                        🔄 Main Kuiz Sekali Lagi
+                    </button>
+                </div>
+            </div>
+
+            <!-- KAD REFLEKTIF DIGITAL (DARIPADA SEGMEN 3 INFOGRAFIK TUGASAN 2) -->
+            <div class="card-casper bg-white rounded-3xl p-6 space-y-6">
+                <div class="border-b-2 border-slate-100 pb-3">
+                    <span class="text-xs font-extrabold uppercase bg-amber-100 text-amber-800 px-3 py-1 rounded-full">Penutup & Refleksi Bermakna</span>
+                    <h3 class="text-xl font-bold text-slate-800 mt-1">Kad Reflektif Digital Kelas Tahun 1</h3>
+                    <p class="text-sm text-slate-600 font-semibold">Lengkapkan kad reflektif di bawah dan tampalkan pada papan kenyataan digital kelas kita!</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    <!-- Borang Input Refleksi -->
+                    <form onsubmit="addReflectionCard(event)" class="lg:col-span-5 bg-pink-50/70 border-2 border-pink-200 rounded-2xl p-5 space-y-4">
+                        <div>
+                            <label class="block text-xs font-extrabold uppercase text-pink-900 mb-1">Nama Kamu:</label>
+                            <input id="ref-name" type="text" placeholder="Contoh: Aisyah / Daniel" class="w-full bg-white border-2 border-pink-200 rounded-xl px-3.5 py-2 text-sm font-bold outline-none focus:border-pink-500" required>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-extrabold uppercase text-pink-900 mb-1">Perasaan Hari Ini:</label>
+                            <div class="grid grid-cols-3 gap-2">
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="ref-mood" value="😄 Seronok!" class="peer hidden" checked>
+                                    <div class="peer-checked:bg-pink-600 peer-checked:text-white bg-white border-2 border-pink-200 rounded-xl py-2 text-center text-xs font-extrabold">😄 Seronok</div>
+                                </label>
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="ref-mood" value="🤩 Faham!" class="peer hidden">
+                                    <div class="peer-checked:bg-pink-600 peer-checked:text-white bg-white border-2 border-pink-200 rounded-xl py-2 text-center text-xs font-extrabold">🤩 Faham</div>
+                                </label>
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="ref-mood" value="🤔 Mahu Cuba Lagi" class="peer hidden">
+                                    <div class="peer-checked:bg-pink-600 peer-checked:text-white bg-white border-2 border-pink-200 rounded-xl py-2 text-center text-xs font-extrabold">🤔 Cuba Lagi</div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-extrabold uppercase text-pink-900 mb-1">1. "Hari ini saya belajar..."</label>
+                            <input id="ref-learned" type="text" placeholder="cth: tambah nombor guna garis nombor" class="w-full bg-white border-2 border-pink-200 rounded-xl px-3.5 py-2 text-sm font-bold outline-none focus:border-pink-500" required>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-extrabold uppercase text-pink-900 mb-1">2. "Saya suka aktiviti..."</label>
+                            <input id="ref-liked" type="text" placeholder="cth: permainan lompat arnab" class="w-full bg-white border-2 border-pink-200 rounded-xl px-3.5 py-2 text-sm font-bold outline-none focus:border-pink-500" required>
+                        </div>
+
+                        <button type="submit" class="btn-3d w-full bg-pink-600 hover:bg-pink-700 text-white font-display py-3 rounded-xl text-base">
+                            📌 Tampal Kad Reflektif
+                        </button>
+                    </form>
+
+                    <!-- Papan Kenyataan Digital (Padlet Style) -->
+                    <div class="lg:col-span-7 bg-amber-50/60 border-2 border-amber-200 rounded-2xl p-5 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <h4 class="font-display text-base font-bold text-amber-950">📌 Papan Refleksi Murid Tahun 1</h4>
+                            <span class="text-xs font-bold text-amber-800">Dikemas kini secara langsung</span>
+                        </div>
+                        <div id="reflection-wall" class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[340px] overflow-y-auto pr-1">
+                            <!-- Contoh kad murid sedia ada -->
+                            <div class="bg-white border-2 border-sky-200 rounded-2xl p-3.5 shadow-sm space-y-1.5">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-extrabold text-xs text-sky-800">🐰 Adam Hakimi</span>
+                                    <span class="text-[11px] font-bold bg-sky-100 text-sky-800 px-2 py-0.5 rounded-full">😄 Seronok!</span>
+                                </div>
+                                <p class="text-xs font-bold text-slate-700">"Hari ini saya belajar <u>menambah dua nombor dalam lingkungan 100</u>."</p>
+                                <p class="text-xs font-bold text-slate-700">"Saya suka aktiviti <u>permainan Bunny Jumping di garis nombor</u>."</p>
+                            </div>
+                            <div class="bg-white border-2 border-emerald-200 rounded-2xl p-3.5 shadow-sm space-y-1.5">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-extrabold text-xs text-emerald-800">🐰 Nurul Iman</span>
+                                    <span class="text-[11px] font-bold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full">🤩 Faham!</span>
+                                </div>
+                                <p class="text-xs font-bold text-slate-700">"Hari ini saya belajar <u>mengira lobak merah dan fakta asas tambah</u>."</p>
+                                <p class="text-xs font-bold text-slate-700">"Saya suka aktiviti <u>berbual dengan Cikgu Arnab AI</u>."</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ===================================================================== -->
+    <!-- WIDGET TERAPUNG: CIKGU ARNAB AI (TERSEDIA PADA SETIAP HALAMAN)         -->
+    <!-- ===================================================================== -->
+    <div id="ai-floating-root" class="fixed bottom-5 right-5 z-50 flex flex-col items-end">
+        <!-- Tetingkap Perbualan AI (Popup Window) -->
+        <div id="ai-chat-window" class="hidden mb-3 w-[92vw] sm:w-[390px] bg-white border-2 border-pink-300 rounded-3xl shadow-2xl overflow-hidden flex flex-col transition-all">
+            <!-- Header Tetingkap AI -->
+            <div class="bg-gradient-to-r from-pink-600 to-rose-500 text-white px-4 py-3 flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                    <span class="w-9 h-9 rounded-full bg-white text-xl flex items-center justify-center shadow-sm">🐰</span>
+                    <div>
+                        <h4 class="font-display text-base font-bold leading-tight">Cikgu Arnab AI</h4>
+                        <span class="text-[11px] font-bold text-pink-100 block">Pembimbing Langkah Demi Langkah</span>
+                    </div>
+                </div>
+                <button onclick="toggleAiChatWidget()" title="Minimumkan Tetingkap" class="w-8 h-8 rounded-xl bg-white/20 hover:bg-white/30 text-white font-bold flex items-center justify-center">
+                    ✕
+                </button>
+            </div>
+
+            <!-- Ruangan Mesej (Sejarah dikekalkan merentas semua halaman) -->
+            <div id="ai-chat-box" class="bg-slate-50 p-3.5 h-72 overflow-y-auto space-y-3">
+                <div class="flex items-start gap-2">
+                    <span class="text-xl mt-0.5">🐰</span>
+                    <div class="bg-white border border-pink-200 rounded-2xl rounded-tl-none p-3 text-xs sm:text-sm font-semibold text-slate-800 shadow-sm space-y-1.5">
+                        <p>Hai! Saya <strong>Cikgu Arnab AI</strong> 🥕. Saya sentiasa ada di setiap halaman untuk bantu kamu mengira!</p>
+                        <button onclick="speakText('Hai! Saya Cikgu Arnab AI. Saya sentiasa ada di setiap halaman untuk bantu kamu mengira!')" class="text-[11px] font-extrabold text-pink-700 hover:underline flex items-center gap-1">
+                            <span>🔊</span> Dengar Suara
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cadangan Butang Pantas -->
+            <div class="bg-pink-50/70 px-3 py-2 border-t border-pink-100 flex gap-1.5 overflow-x-auto">
+                <button onclick="sendQuickPrompt('Bantu saya kira 4 + 3')" class="shrink-0 text-[11px] font-extrabold bg-white hover:bg-pink-100 text-pink-800 border border-pink-200 px-2.5 py-1 rounded-full">💡 Bantu saya kira 4 + 3</button>
+                <button onclick="sendQuickPrompt('Macam mana nak lompat garis nombor?')" class="shrink-0 text-[11px] font-extrabold bg-white hover:bg-sky-100 text-sky-800 border border-sky-200 px-2.5 py-1 rounded-full">📏 Garis nombor?</button>
+                <button onclick="sendQuickPrompt('Apa itu tambah?')" class="shrink-0 text-[11px] font-extrabold bg-white hover:bg-amber-100 text-amber-800 border border-amber-200 px-2.5 py-1 rounded-full">❓ Apa itu tambah?</button>
+            </div>
+
+            <!-- Borang Input Mesej -->
+            <form onsubmit="handleAiSubmit(event)" class="p-2.5 bg-white border-t border-slate-200 flex gap-2">
+                <input id="ai-user-input" type="text" placeholder="Taip soalan tambah (cth: 24 + 13)..." class="flex-grow bg-slate-100 focus:bg-white border-2 border-slate-200 focus:border-pink-500 rounded-xl px-3 py-2 text-xs sm:text-sm font-bold outline-none" required>
+                <button type="submit" id="ai-send-btn" class="btn-3d bg-pink-600 hover:bg-pink-700 text-white font-display px-4 py-2 rounded-xl text-xs sm:text-sm shrink-0">
+                    Hantar
+                </button>
+            </form>
+        </div>
+
+        <!-- Butang Terapung (Floating Action Button) -->
+        <button onclick="toggleAiChatWidget()" id="ai-fab-btn" class="btn-3d bg-gradient-to-r from-pink-600 to-rose-500 hover:from-pink-700 hover:to-rose-600 text-white px-4 py-3 rounded-full shadow-xl border-2 border-white flex items-center gap-2.5">
+            <span class="text-2xl animate-float">🐰</span>
+            <span class="font-display text-sm sm:text-base font-bold">Tanya Cikgu Arnab AI</span>
+        </button>
+    </div>
+
+    <!-- FOOTER RINGKAS (Prinsip CASPER: Repetition & Etika Hak Cipta) -->
+    <footer class="bg-white border-t-2 border-sky-200 py-6 mt-10">
+        <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+            <div>
+                <p class="font-display font-bold text-slate-800 text-sm">Matematik Tahun 1: Penambahan dalam Lingkungan 100</p>
+                <p class="text-xs font-semibold text-slate-500">Kredit Grafik SVG Asli: Nurmarsya Amani (2026) • Fon: Google Fonts (OFL) • Audio: Tone.js (MIT)</p>
+            </div>
+            <div class="flex flex-wrap items-center justify-center gap-2">
+                <span class="text-xs font-extrabold bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full">Lesen: CC BY-NC 4.0</span>
+                <span class="text-xs font-extrabold bg-sky-100 text-sky-800 px-3 py-1 rounded-full">🔒 Selamat Data Murid</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===================================================================== -->
+    <!-- LOGIK INTERAKTIF JAVASCRIPT (OPD, PERMAINAN, AI, KUIZ & AUDIO)        -->
+    <!-- ===================================================================== -->
+    <script>
+        // --- 1. SISTEM NOTIFIKASI & KESAN BUNYI (TONE.JS) ---
+        function playSound(type) {
+            try {
+                if (typeof Tone !== 'undefined') {
+                    if (Tone.context.state !== 'running') {
+                        Tone.start();
+                    }
+                    const synth = new Tone.Synth().toDestination();
+                    if (type === 'correct') {
+                        synth.triggerAttackRelease("C5", "16n");
+                        setTimeout(() => synth.triggerAttackRelease("E5", "16n"), 90);
+                        setTimeout(() => synth.triggerAttackRelease("G5", "8n"), 180);
+                    } else if (type === 'wrong') {
+                        synth.triggerAttackRelease("E3", "8n");
+                    } else if (type === 'hop') {
+                        synth.triggerAttackRelease("G4", "32n");
+                    }
+                }
+            } catch (e) {
+                // Abaikan jika browser menyekat audio sebelum interaksi
+            }
+        }
+
+        function showToast(msg, icon = '🌟') {
+            const box = document.getElementById('toast-box');
+            document.getElementById('toast-msg').textContent = msg;
+            document.getElementById('toast-icon').textContent = icon;
+            box.classList.remove('hidden');
+            clearTimeout(window.toastTimer);
+            window.toastTimer = setTimeout(() => {
+                box.classList.add('hidden');
+            }, 3500);
+        }
+
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utter = new SpeechSynthesisUtterance(text);
+                utter.lang = 'ms-MY';
+                utter.rate = 0.95;
+                window.speechSynthesis.speak(utter);
+                showToast("Membacakan arahan dengan suara...", "🔊");
+            } else {
+                showToast(text, "💬");
+            }
+        }
+
+        // --- 2. NAVIGASI TAB HALAMAN ---
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(sec => sec.classList.add('hidden'));
+            document.getElementById('tab-' + tabId).classList.remove('hidden');
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('bg-sky-600', 'text-white', 'shadow-sm');
+                btn.classList.add('bg-slate-100', 'text-slate-700');
+            });
+            const activeBtn = document.getElementById('nav-' + tabId);
+            if (activeBtn) {
+                activeBtn.classList.remove('bg-slate-100', 'text-slate-700');
+                activeBtn.classList.add('bg-sky-600', 'text-white', 'shadow-sm');
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // --- 3. LOGIK HALAMAN 1: ANIMASI SET INDUKSI & FORMATIF AWAL ---
+        function playIntroAnimation() {
+            const left = document.getElementById('basket-left');
+            const right = document.getElementById('basket-right');
+            const totalBox = document.getElementById('basket-total');
+            const totalDisp = document.getElementById('total-display');
+            const caption = document.getElementById('intro-caption');
+
+            resetIntroAnimation();
+            playSound('hop');
+
+            caption.innerHTML = "Langkah 1: Si Arnab ada <strong>3 lobak merah</strong> di dalam bakul pertama...";
+            left.classList.add('ring-4', 'ring-orange-400', 'scale-105');
+
+            setTimeout(() => {
+                playSound('hop');
+                left.classList.remove('ring-4', 'ring-orange-400', 'scale-105');
+                right.classList.add('ring-4', 'ring-orange-400', 'scale-105');
+                caption.innerHTML = "Langkah 2: Kemudian, Si Arnab jumpa lagi <strong>2 lobak merah</strong> di dalam bakul kedua!";
+            }, 2200);
+
+            setTimeout(() => {
+                playSound('correct');
+                right.classList.remove('ring-4', 'ring-orange-400', 'scale-105');
+                totalBox.classList.add('ring-4', 'ring-amber-300', 'scale-110');
+                totalDisp.textContent = "5 🥕";
+                caption.innerHTML = "Jumlah semuanya: <strong>3 + 2 = 5 lobak merah!</strong> Operasi <strong>Tambah (+)</strong> menggabungkan kedua-dua kumpulan.";
+            }, 4400);
+        }
+
+        function resetIntroAnimation() {
+            const left = document.getElementById('basket-left');
+            const right = document.getElementById('basket-right');
+            const totalBox = document.getElementById('basket-total');
+            if (left) left.classList.remove('ring-4', 'ring-orange-400', 'scale-105');
+            if (right) right.classList.remove('ring-4', 'ring-orange-400', 'scale-105');
+            if (totalBox) totalBox.classList.remove('ring-4', 'ring-amber-300', 'scale-110');
+            const totalDisp = document.getElementById('total-display');
+            if (totalDisp) totalDisp.textContent = "?";
+            const caption = document.getElementById('intro-caption');
+            if (caption) caption.innerHTML = 'Klik butang <strong>"Mainkan Penerangan"</strong> di bawah untuk melihat bagaimana 3 lobak merah ditambah dengan 2 lobak merah!';
+        }
+
+        function checkFormative(qNum, isCorrect, btnEl) {
+            document.querySelectorAll(`.f-btn-${qNum}`).forEach(b => {
+                b.classList.remove('bg-emerald-500', 'bg-rose-500', 'text-white', 'border-emerald-700', 'border-rose-700');
+            });
+            const msgEl = document.getElementById(`f-msg-${qNum}`);
+            if (isCorrect) {
+                playSound('correct');
+                btnEl.classList.add('bg-emerald-500', 'text-white', 'border-emerald-700');
+                msgEl.textContent = "✅ Tepat sekali! Syabas!";
+                msgEl.className = "text-xs font-extrabold text-emerald-700 min-h-[18px]";
+            } else {
+                playSound('wrong');
+                btnEl.classList.add('bg-rose-500', 'text-white', 'border-rose-700');
+                msgEl.textContent = "❌ Cuba kira sekali lagi ya!";
+                msgEl.className = "text-xs font-extrabold text-rose-700 min-h-[18px]";
+            }
+        }
+
+        // --- 4. LOGIK HALAMAN 2 (STESEN A): VIDEO INTERAKTIF BERHENTIKAN SOALAN ---
+        let vidTime = 0;
+        let vidPlaying = false;
+        let vidInterval = null;
+        let vidAnswered = new Set();
+
+        const videoCheckpoints = {
+            4: {
+                step: "Soalan 1/3",
+                q: "Jika Si Arnab berada di nombor 4 dan melompat 3 langkah ke kanan, di nombor manakah ia berhenti?",
+                opts: ["6", "7", "8"],
+                ans: 1
+            },
+            9: {
+                step: "Soalan 2/3",
+                q: "Untuk menambah 24 + 13, rumah nilai tempat manakah yang perlu kita tambah dahulu?",
+                opts: ["Rumah Sa (4 + 3)", "Rumah Puluh (2 + 1)", "Mana-mana pun boleh"],
+                ans: 0
+            },
+            14: {
+                step: "Soalan 3/3",
+                q: "Berapakah hasil tambah 24 + 13?",
+                opts: ["37", "31", "47"],
+                ans: 0
+            }
+        };
+
+        function toggleInteractiveVideo() {
+            if (!document.getElementById('video-popup-overlay').classList.contains('hidden')) {
+                showToast("Sila jawab soalan kuiz pada skrin video dahulu!", "⏸️");
+                return;
+            }
+            if (vidPlaying) {
+                pauseInteractiveVideo();
+            } else {
+                if (vidTime >= 15) resetInteractiveVideo();
+                vidPlaying = true;
+                document.getElementById('video-play-btn').innerHTML = '<span>⏸️</span> Jeda Video';
+                vidInterval = setInterval(() => {
+                    vidTime++;
+                    updateVideoUI();
+
+                    if (videoCheckpoints[vidTime] && !vidAnswered.has(vidTime)) {
+                        pauseInteractiveVideo();
+                        triggerVideoPopup(vidTime);
+                    } else if (vidTime >= 15) {
+                        pauseInteractiveVideo();
+                        document.getElementById('video-play-btn').innerHTML = '<span>▶️</span> Main Semula';
+                        showToast("Tahniah! Kamu telah tamat menonton video interaktif!", "🎬");
+                    }
+                }, 1000);
+            }
+        }
+
+        function pauseInteractiveVideo() {
+            vidPlaying = false;
+            clearInterval(vidInterval);
+            document.getElementById('video-play-btn').innerHTML = '<span>▶️</span> Sambung Video';
+        }
+
+        function resetInteractiveVideo() {
+            pauseInteractiveVideo();
+            vidTime = 0;
+            vidAnswered.clear();
+            document.getElementById('video-quiz-count').textContent = "0";
+            document.getElementById('video-popup-overlay').classList.add('hidden');
+            document.getElementById('video-play-btn').innerHTML = '<span>▶️</span> Mula / Sambung Video';
+            updateVideoUI();
+        }
+
+        function updateVideoUI() {
+            const pct = Math.min((vidTime / 15) * 100, 100);
+            document.getElementById('video-progress-bar').style.width = pct + "%";
+            document.getElementById('video-timer-label').textContent = `00:${String(vidTime).padStart(2, '0')} / 00:15`;
+
+            const visual = document.getElementById('video-visual-area');
+            if (vidTime === 0) {
+                visual.innerHTML = `<span class="text-5xl block">🎥</span><h4 class="font-display text-2xl text-amber-300">Video Pengajaran Interaktif</h4><p class="text-sm text-slate-200">Video ini akan berhenti secara automatik pada detik ke-<strong>4s</strong>, ke-<strong>9s</strong>, dan ke-<strong>14s</strong> untuk menguji kefahaman anda!</p>`;
+            } else if (vidTime <= 5) {
+                visual.innerHTML = `<span class="text-5xl block">🐇📏</span><h4 class="font-display text-2xl text-sky-300">Bahagian 1: Melompat di Garis Nombor</h4><p class="text-base text-white">Apabila kita <strong>menambah</strong>, Si Arnab akan melompat ke arah <strong>KANAN</strong> kerana nilai nombor semakin besar!</p>`;
+            } else if (vidTime <= 10) {
+                visual.innerHTML = `<span class="text-5xl block">🔟➕1️⃣</span><h4 class="font-display text-2xl text-emerald-300">Bahagian 2: Tambah Rumah Sa Dahulu</h4><p class="text-base text-white">Contoh <strong>24 + 13</strong>: Kita tambah digit di rumah <strong>Sa</strong> dahulu (4 + 3 = 7), diikuti rumah <strong>Puluh</strong> (20 + 10 = 30).</p>`;
+            } else {
+                visual.innerHTML = `<span class="text-5xl block">🌟🧮</span><h4 class="font-display text-2xl text-amber-300">Bahagian 3: Gabungkan Hasil</h4><p class="text-base text-white">30 + 7 = <strong>37</strong>! Mudah bukan? Mari uji kefahaman terakhir kamu!</p>`;
+            }
+        }
+
+        function triggerVideoPopup(sec) {
+            const data = videoCheckpoints[sec];
+            document.getElementById('vp-step-badge').textContent = data.step;
+            document.getElementById('vp-question').textContent = data.q;
+            document.getElementById('vp-feedback').textContent = "";
+
+            const optsDiv = document.getElementById('vp-options');
+            optsDiv.innerHTML = "";
+            data.opts.forEach((optText, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left px-4 py-2.5 rounded-xl border-2 border-slate-200 hover:border-indigo-500 hover:bg-indigo-50 font-bold text-sm transition";
+                btn.textContent = `${['A', 'B', 'C'][idx]}. ${optText}`;
+                btn.onclick = () => {
+                    const fb = document.getElementById('vp-feedback');
+                    if (idx === data.ans) {
+                        playSound('correct');
+                        vidAnswered.add(sec);
+                        document.getElementById('video-quiz-count').textContent = vidAnswered.size;
+                        fb.textContent = "✅ Betul! Video disambung...";
+                        fb.className = "text-xs font-extrabold text-emerald-700";
+                        setTimeout(() => {
+                            document.getElementById('video-popup-overlay').classList.add('hidden');
+                            toggleInteractiveVideo();
+                        }, 900);
+                    } else {
+                        playSound('wrong');
+                        fb.textContent = "❌ Kurang tepat. Cuba pilih jawapan lain!";
+                        fb.className = "text-xs font-extrabold text-rose-700";
+                    }
+                };
+                optsDiv.appendChild(btn);
+            });
+
+            document.getElementById('video-popup-overlay').classList.remove('hidden');
+        }
+
+        // --- 5. LOGIK HALAMAN 2 (STESEN B): PERMAINAN BUNNY JUMPING (LOMPAT SATU-SATU) ---
+        let bunnyStart = 2;
+        let bunnyAdd = 4;
+        let bunnyTarget = 6;
+        let bunnyCurrentPos = 2;
+        let bunnyHopsDone = 0;
+        let bunnyLineMin = 0;
+        let bunnyLineMax = 10;
+        let bunnyScore = 0;
+        let autoHopTimer = null;
+        let bunnyQuestionSolved = false;
+
+        function newBunnyQuestion() {
+            clearInterval(autoHopTimer);
+            autoHopTimer = null;
+            bunnyQuestionSolved = false;
+            const mode = document.getElementById('bunny-mode').value;
+
+            if (mode === 'asas') {
+                bunnyStart = Math.floor(Math.random() * 6) + 1; // 1..6
+                bunnyAdd = Math.floor(Math.random() * 5) + 2;   // 2..6
+                bunnyLineMin = 0;
+                bunnyLineMax = 12;
+            } else {
+                bunnyStart = Math.floor(Math.random() * 65) + 15; // 15..79
+                bunnyAdd = Math.floor(Math.random() * 6) + 2;     // 2..7
+                bunnyLineMin = bunnyStart - 1;
+                bunnyLineMax = bunnyStart + 10;
+            }
+            bunnyTarget = bunnyStart + bunnyAdd;
+            bunnyCurrentPos = bunnyStart;
+            bunnyHopsDone = 0;
+
+            document.getElementById('bunny-direct-input').value = "";
+            document.getElementById('bunny-eq').textContent = `${bunnyStart} + ${bunnyAdd} = ?`;
+            document.getElementById('bunny-hop-counter').textContent = `Lompatan: 0 / ${bunnyAdd}`;
+            document.getElementById('bunny-hint-text').textContent = `Si Arnab bermula di nombor ${bunnyStart}. Lompat ${bunnyAdd} langkah ke kanan!`;
+            document.getElementById('bunny-feedback').textContent = "Tekan 'Lompat +1' satu demi satu atau klik nombor jawapan di garis nombor 👆";
+            document.getElementById('bunny-feedback').className = "text-sm font-extrabold text-slate-800";
+
+            renderNumberLine(bunnyLineMin, bunnyLineMax, bunnyCurrentPos, false);
+            drawHopArcs();
+        }
+
+        function resetBunnyHops() {
+            clearInterval(autoHopTimer);
+            autoHopTimer = null;
+            bunnyCurrentPos = bunnyStart;
+            bunnyHopsDone = 0;
+            document.getElementById('bunny-hop-counter').textContent = `Lompatan: 0 / ${bunnyAdd}`;
+            document.getElementById('bunny-feedback').textContent = `Si Arnab kembali ke nombor permulaan ${bunnyStart}. Cuba lompat satu-satu!`;
+            document.getElementById('bunny-feedback').className = "text-sm font-extrabold text-sky-800";
+            renderNumberLine(bunnyLineMin, bunnyLineMax, bunnyCurrentPos, false);
+            drawHopArcs();
+        }
+
+        function hopOneStep() {
+            if (bunnyCurrentPos >= bunnyLineMax) {
+                showToast("Si Arnab sudah sampai di hujung garis nombor!", "🐇");
+                return;
+            }
+            playSound('hop');
+            bunnyCurrentPos++;
+            bunnyHopsDone++;
+
+            document.getElementById('bunny-hop-counter').textContent = `Lompatan: ${bunnyHopsDone} / ${bunnyAdd}`;
+            renderNumberLine(bunnyLineMin, bunnyLineMax, bunnyCurrentPos, true);
+            drawHopArcs();
+
+            if (bunnyHopsDone === bunnyAdd && bunnyCurrentPos === bunnyTarget) {
+                completeBunnySuccess();
+            } else if (bunnyHopsDone < bunnyAdd) {
+                document.getElementById('bunny-feedback').textContent = `🐇 Lompatan ke-${bunnyHopsDone}: Si Arnab sekarang di nombor ${bunnyCurrentPos}. Perlukan ${bunnyAdd - bunnyHopsDone} lompatan lagi!`;
+                document.getElementById('bunny-feedback').className = "text-sm font-extrabold text-sky-900";
+            } else {
+                document.getElementById('bunny-feedback').textContent = `⚠️ Terlebih lompat! Kamu sudah melompat ${bunnyHopsDone} kali (sepatutnya ${bunnyAdd} kali). Klik 'Ulang Posisi'.`;
+                document.getElementById('bunny-feedback').className = "text-sm font-extrabold text-amber-800";
+            }
+        }
+
+        function startAutoHop() {
+            if (autoHopTimer) return;
+            if (bunnyHopsDone >= bunnyAdd) {
+                resetBunnyHops();
+            }
+            autoHopTimer = setInterval(() => {
+                if (bunnyHopsDone < bunnyAdd) {
+                    hopOneStep();
+                } else {
+                    clearInterval(autoHopTimer);
+                    autoHopTimer = null;
+                }
+            }, 600);
+        }
+
+        function checkDirectBunnyInput() {
+            const val = parseInt(document.getElementById('bunny-direct-input').value, 10);
+            if (isNaN(val)) {
+                showToast("Sila masukkan nombor jawapan dahulu!", "✏️");
+                return;
+            }
+            handleBunnyGuess(val);
+        }
+
+        function completeBunnySuccess() {
+            clearInterval(autoHopTimer);
+            autoHopTimer = null;
+            playSound('correct');
+            if (!bunnyQuestionSolved) {
+                bunnyScore += 10;
+                bunnyQuestionSolved = true;
+                document.getElementById('bunny-score').textContent = bunnyScore;
+            }
+            document.getElementById('bunny-eq').textContent = `${bunnyStart} + ${bunnyAdd} = ${bunnyTarget}`;
+            document.getElementById('bunny-feedback').textContent = `🎉 Syabas! ${bunnyStart} + ${bunnyAdd} = ${bunnyTarget}! Si Arnab mendarat tepat! (+10 Markah)`;
+            document.getElementById('bunny-feedback').className = "text-sm font-extrabold text-emerald-800";
+
+            // Konfeti gembira di atas arnab
+            const activeHolder = document.getElementById(`bunny-pos-${bunnyTarget}`);
+            if (activeHolder) {
+                activeHolder.innerHTML = `<span class="animate-hop inline-block">🐰</span><span class="confetti-burst absolute -top-4 text-lg">🎉✨</span>`;
+            }
+        }
+
+        function renderNumberLine(minVal, maxVal, activePos, withStepAnim) {
+            const container = document.getElementById('number-line-container');
+            container.innerHTML = "";
+
+            for (let num = minVal; num <= maxVal; num++) {
+                const slot = document.createElement('div');
+                slot.className = "flex flex-col items-center relative";
+                slot.id = `nl-slot-${num}`;
+
+                // Maskot Arnab di atas nombor semasa
+                const bunnyHolder = document.createElement('div');
+                bunnyHolder.id = `bunny-pos-${num}`;
+                bunnyHolder.className = "h-10 flex items-center justify-center text-2xl sm:text-3xl mb-1 relative";
+                if (num === activePos) {
+                    bunnyHolder.innerHTML = `<span class="${withStepAnim ? 'animate-step-hop' : 'animate-hop'} inline-block">🐰</span>`;
+                }
+
+                // Butang Nombor
+                const isVisited = num > bunnyStart && num <= bunnyCurrentPos && bunnyHopsDone > 0;
+                const numBtn = document.createElement('button');
+                numBtn.className = `w-10 h-10 sm:w-11 sm:h-11 rounded-xl font-display font-bold text-sm sm:text-base border-2 transition ${
+                    num === activePos
+                        ? 'bg-amber-400 border-amber-600 text-slate-900 shadow-md scale-105'
+                        : isVisited
+                            ? 'bg-emerald-200 border-emerald-500 text-emerald-950'
+                            : num === bunnyStart
+                                ? 'bg-sky-200 border-sky-500 text-sky-950'
+                                : 'bg-white border-emerald-400 text-slate-800 hover:bg-emerald-200'
+                }`;
+                numBtn.textContent = num;
+                numBtn.onclick = () => handleBunnyGuess(num);
+
+                slot.appendChild(bunnyHolder);
+                slot.appendChild(numBtn);
+                container.appendChild(slot);
+            }
+        }
+
+        function drawHopArcs() {
+            const svg = document.getElementById('hop-arcs-svg');
+            const wrapper = document.getElementById('number-line-wrapper');
+            if (!svg || !wrapper) return;
+            svg.innerHTML = "";
+
+            const wrapRect = wrapper.getBoundingClientRect();
+            if (wrapRect.width === 0) return;
+
+            const endStep = Math.min(bunnyStart + bunnyHopsDone, bunnyLineMax);
+            for (let n = bunnyStart; n < endStep; n++) {
+                const el1 = document.getElementById(`nl-slot-${n}`);
+                const el2 = document.getElementById(`nl-slot-${n + 1}`);
+                if (!el1 || !el2) continue;
+
+                const r1 = el1.getBoundingClientRect();
+                const r2 = el2.getBoundingClientRect();
+                const x1 = (r1.left + r1.width / 2) - wrapRect.left;
+                const x2 = (r2.left + r2.width / 2) - wrapRect.left;
+                const midX = (x1 + x2) / 2;
+
+                // Lengkungan parabola
+                const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                path.setAttribute("d", `M ${x1} 44 Q ${midX} 6 ${x2} 44`);
+                path.setAttribute("fill", "none");
+                path.setAttribute("stroke", "#F97316");
+                path.setAttribute("stroke-width", "3");
+                path.setAttribute("stroke-dasharray", "5,3");
+                svg.appendChild(path);
+
+                // Label +1
+                const txt = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                txt.setAttribute("x", midX);
+                txt.setAttribute("y", 16);
+                txt.setAttribute("text-anchor", "middle");
+                txt.setAttribute("fill", "#C2410C");
+                txt.setAttribute("font-size", "12");
+                txt.setAttribute("font-weight", "800");
+                txt.textContent = "+1";
+                svg.appendChild(txt);
+            }
+        }
+
+        function handleBunnyGuess(chosenNum) {
+            if (chosenNum === bunnyTarget) {
+                bunnyCurrentPos = bunnyTarget;
+                bunnyHopsDone = bunnyAdd;
+                document.getElementById('bunny-hop-counter').textContent = `Lompatan: ${bunnyAdd} / ${bunnyAdd}`;
+                renderNumberLine(bunnyLineMin, bunnyLineMax, bunnyTarget, true);
+                drawHopArcs();
+                completeBunnySuccess();
+            } else {
+                playSound('wrong');
+                const diff = chosenNum - bunnyStart;
+                document.getElementById('bunny-feedback').textContent = `❌ Nombor ${chosenNum} bukan jawapannya (${diff < 0 ? 'ke belakang' : diff + ' langkah'}). Cuba tekan butang 'Lompat +1' satu demi satu dari ${bunnyStart}!`;
+                document.getElementById('bunny-feedback').className = "text-sm font-extrabold text-rose-700";
+            }
+        }
+
+        function checkProcessChecklist() {
+            const total = document.querySelectorAll('.process-chk').length;
+            const checked = document.querySelectorAll('.process-chk:checked').length;
+            if (checked === total) {
+                playSound('correct');
+                showToast("Syabas! Semua 4 langkah pentaksiran proses selesai!", "📋");
+            }
+        }
+
+        // --- 6. LOGIK WIDGET TERAPUNG: PEMBANTU MAYA "CIKGU ARNAB AI" ---
+        function toggleAiChatWidget() {
+            const win = document.getElementById('ai-chat-window');
+            win.classList.toggle('hidden');
+            if (!win.classList.contains('hidden')) {
+                document.getElementById('ai-user-input').focus();
+            }
+        }
+
+        function sendQuickPrompt(txt) {
+            const win = document.getElementById('ai-chat-window');
+            if (win.classList.contains('hidden')) win.classList.remove('hidden');
+            document.getElementById('ai-user-input').value = txt;
+            handleAiSubmit(new Event('submit'));
+        }
+
+        async function handleAiSubmit(e) {
+            e.preventDefault();
+            const inputEl = document.getElementById('ai-user-input');
+            const userText = inputEl.value.trim();
+            if (!userText) return;
+
+            appendChatBubble('user', userText);
+            inputEl.value = "";
+
+            const loadingId = appendChatBubble('ai', "Cikgu Arnab sedang berfikir... 🥕💭", false);
+
+            try {
+                const apiKey = "";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+                const payload = {
+                    contents: [{ parts: [{ text: userText }] }],
+                    systemInstruction: {
+                        parts: [{
+                            text: "Anda ialah Cikgu Arnab AI, pembantu pembelajaran Matematik Tahun 1 (umur 7 tahun) di Malaysia. Gunakan Bahasa Melayu yang ceria, ringkas, dan mesra kanak-kanak. Peraturan etika penting: JANGAN terus beri jawapan akhir kepada soalan tambah murid; sebaliknya berikan petunjuk langkah demi langkah (scaffolding) seperti mengasingkan rumah Puluh dan Sa atau melompat satu demi satu di atas garis nombor, kemudian ajak murid mencuba."
+                        }]
+                    }
+                };
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) throw new Error("API fallback");
+                const data = await response.json();
+                const aiReply = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+                if (aiReply) {
+                    updateChatBubble(loadingId, aiReply);
+                    return;
+                }
+                throw new Error("Empty reply");
+            } catch (err) {
+                const reply = generateLocalScaffolding(userText);
+                setTimeout(() => updateChatBubble(loadingId, reply), 450);
+            }
+        }
+
+        function generateLocalScaffolding(text) {
+            const lower = text.toLowerCase();
+            if (lower.includes("apa itu tambah")) {
+                return "Operasi <strong>TAMBAH (+)</strong> bermaksud menggabungkan dua kumpulan objek supaya jumlahnya menjadi <strong>semakin banyak</strong>! Contohnya: 2 lobak + 3 lobak = 5 lobak 🥕.";
+            }
+            if (lower.includes("garis nombor")) {
+                return "Cara guna <strong>Garis Nombor</strong> senang sahaja! 🐰<br>1️⃣ Mula berdiri pada nombor pertama.<br>2️⃣ Lompat <strong>satu demi satu ke KANAN</strong> mengikut bilangan nombor kedua.<br>3️⃣ Nombor tempat kamu berhenti itulah jawapannya!";
+            }
+            const nums = text.match(/\d+/g);
+            if (nums && nums.length >= 2) {
+                const a = parseInt(nums[0], 10);
+                const b = parseInt(nums[1], 10);
+                if (a + b <= 100) {
+                    if (a >= 10 || b >= 10) {
+                        const saA = a % 10, saB = b % 10;
+                        const puluhA = Math.floor(a / 10) * 10, puluhB = Math.floor(b / 10) * 10;
+                        return `Wah, soalan yang bagus: <strong>${a} + ${b}</strong>! 🐰✨<br>Mari kira langkah demi langkah:<br>1️⃣ Tambah rumah <strong>Sa</strong> dahulu: <strong>${saA} + ${saB}</strong> = berapa?<br>2️⃣ Kemudian tambah rumah <strong>Puluh</strong>: <strong>${puluhA} + ${puluhB}</strong> = berapa?<br>Cuba gabungkan kedua-dua hasil itu! 🥕`;
+                    } else {
+                        return `Jom guna garis nombor untuk <strong>${a} + ${b}</strong>! 🐰<br>Mula di nombor <strong>${a}</strong>, kemudian lompat <strong>${b} langkah satu demi satu ke kanan</strong>. Nombor apakah yang kamu jumpa?`;
+                    }
+                }
+            }
+            return "Hai kawan! 🐰 Cuba taip dua nombor yang ingin ditambah (contoh: <strong>4 + 3</strong> atau <strong>25 + 13</strong>), nanti Cikgu Arnab tunjukkan cara mengira langkah demi langkah!";
+        }
+
+        function appendChatBubble(sender, htmlText, withSpeech = true) {
+            const box = document.getElementById('ai-chat-box');
+            const id = 'msg-' + Date.now() + Math.random().toString(36).slice(2, 6);
+            const wrapper = document.createElement('div');
+
+            if (sender === 'user') {
+                wrapper.className = "flex justify-end";
+                wrapper.innerHTML = `<div class="bg-sky-600 text-white rounded-2xl rounded-tr-none px-3.5 py-2 text-xs sm:text-sm font-bold max-w-[82%] shadow-sm">${escapeHtml(htmlText)}</div>`;
+            } else {
+                wrapper.className = "flex items-start gap-2";
+                wrapper.innerHTML = `<span class="text-xl mt-0.5">🐰</span><div id="${id}" class="bg-white border border-pink-200 rounded-2xl rounded-tl-none p-3 text-xs sm:text-sm font-semibold text-slate-800 shadow-sm max-w-[85%] leading-relaxed">${htmlText}</div>`;
+            }
+            box.appendChild(wrapper);
+            box.scrollTop = box.scrollHeight;
+            return id;
+        }
+
+        function updateChatBubble(id, htmlText) {
+            const el = document.getElementById(id);
+            if (el) {
+                const formatted = htmlText.replace(/\n/g, '<br>');
+                const plainText = htmlText.replace(/<[^>]*>/g, ' ').replace(/['"]/g, '');
+                el.innerHTML = `
+                    <div>${formatted}</div>
+                    <button onclick="speakText('${plainText}')" class="mt-1.5 text-[11px] font-extrabold text-pink-700 hover:underline flex items-center gap-1">
+                        <span>🔊</span> Dengar Jawapan
+                    </button>
+                `;
+            }
+            const box = document.getElementById('ai-chat-box');
+            box.scrollTop = box.scrollHeight;
+        }
+
+        // --- 7. LOGIK HALAMAN 3: KUIZ GAMIFIKASI (QUIZIZZ STYLE) ---
+        const quizQuestions = [
+            { q: "8 + 7 = ?", opts: ["14", "15", "16", "13"], ans: 1 },
+            { q: "23 + 15 = ?", opts: ["38", "35", "48", "28"], ans: 0 },
+            { q: "40 + 36 = ?", opts: ["66", "70", "76", "86"], ans: 2 },
+            { q: "Ali ada 32 biji guli. Abu beri 14 biji lagi. Berapa jumlah guli Ali?", opts: ["44", "46", "56", "36"], ans: 1 },
+            { q: "65 + 24 = ?", opts: ["89", "99", "79", "81"], ans: 0 }
+        ];
+
+        let qzIndex = 0;
+        let qzScore = 0;
+        let qzCorrectCount = 0;
+        let qzStreak = 0;
+        let qzTimer = null;
+        let qzTimeLeft = 20;
+
+        function startGamifiedQuiz() {
+            const nameInput = document.getElementById('quiz-player-name').value.trim() || "Adik Pintar";
+            document.getElementById('qz-final-name').textContent = nameInput;
+
+            qzIndex = 0;
+            qzScore = 0;
+            qzCorrectCount = 0;
+            qzStreak = 0;
+
+            document.getElementById('quiz-start-screen').classList.add('hidden');
+            document.getElementById('quiz-end-screen').classList.add('hidden');
+            document.getElementById('quiz-play-screen').classList.remove('hidden');
+            document.getElementById('quiz-hud').classList.remove('hidden');
+
+            loadQuizQuestion();
+        }
+
+        function loadQuizQuestion() {
+            clearInterval(qzTimer);
+            qzTimeLeft = 20;
+            document.getElementById('qz-timer').textContent = `⏱️ ${qzTimeLeft}s`;
+            document.getElementById('qz-streak').textContent = qzStreak;
+            document.getElementById('qz-points').textContent = qzScore;
+            document.getElementById('qz-feedback-banner').textContent = "";
+
+            const item = quizQuestions[qzIndex];
+            document.getElementById('qz-progress').textContent = `Soalan ${qzIndex + 1} daripada ${quizQuestions.length}`;
+            document.getElementById('qz-question-text').textContent = item.q;
+
+            const colors = [
+                "bg-sky-500 hover:bg-sky-600 border-sky-700",
+                "bg-emerald-500 hover:bg-emerald-600 border-emerald-700",
+                "bg-amber-500 hover:bg-amber-600 border-amber-700",
+                "bg-pink-500 hover:bg-pink-600 border-pink-700"
+            ];
+
+            const grid = document.getElementById('qz-options-grid');
+            grid.innerHTML = "";
+            item.opts.forEach((opt, i) => {
+                const btn = document.createElement('button');
+                btn.className = `btn-3d ${colors[i]} text-white font-display text-xl sm:text-2xl py-4 px-5 rounded-2xl border-b-4 transition`;
+                btn.textContent = opt;
+                btn.onclick = () => submitQuizAnswer(i);
+                grid.appendChild(btn);
+            });
+
+            qzTimer = setInterval(() => {
+                qzTimeLeft--;
+                document.getElementById('qz-timer').textContent = `⏱️ ${qzTimeLeft}s`;
+                if (qzTimeLeft <= 0) {
+                    clearInterval(qzTimer);
+                    submitQuizAnswer(-1);
+                }
+            }, 1000);
+        }
+
+        function submitQuizAnswer(chosenIdx) {
+            clearInterval(qzTimer);
+            const item = quizQuestions[qzIndex];
+            const banner = document.getElementById('qz-feedback-banner');
+
+            // Nyahaktifkan butang sementara
+            document.querySelectorAll('#qz-options-grid button').forEach(b => b.disabled = true);
+
+            if (chosenIdx === item.ans) {
+                playSound('correct');
+                qzStreak++;
+                qzCorrectCount++;
+                const earned = 100 + (qzTimeLeft * 5);
+                qzScore += earned;
+                banner.textContent = `🌟 TEPAT! +${earned} mata!`;
+                banner.className = "text-center font-display text-lg text-emerald-400";
+            } else {
+                playSound('wrong');
+                qzStreak = 0;
+                banner.textContent = `💡 Jawapan sebenar ialah ${item.opts[item.ans]}. Teruskan usaha!`;
+                banner.className = "text-center font-display text-lg text-amber-300";
+            }
+
+            document.getElementById('qz-streak').textContent = qzStreak;
+            document.getElementById('qz-points').textContent = qzScore;
+
+            setTimeout(() => {
+                qzIndex++;
+                if (qzIndex < quizQuestions.length) {
+                    loadQuizQuestion();
+                } else {
+                    finishGamifiedQuiz();
+                }
+            }, 1300);
+        }
+
+        function finishGamifiedQuiz() {
+            document.getElementById('quiz-play-screen').classList.add('hidden');
+            document.getElementById('quiz-end-screen').classList.remove('hidden');
+            document.getElementById('qz-final-score').textContent = qzScore;
+            document.getElementById('qz-final-correct').textContent = `${qzCorrectCount}/${quizQuestions.length}`;
+        }
+
+        function resetGamifiedQuiz() {
+            document.getElementById('quiz-end-screen').classList.add('hidden');
+            document.getElementById('quiz-hud').classList.add('hidden');
+            document.getElementById('quiz-start-screen').classList.remove('hidden');
+        }
+
+        // --- 8. LOGIK HALAMAN 3: KAD REFLEKTIF DIGITAL ---
+        function addReflectionCard(e) {
+            e.preventDefault();
+            const name = document.getElementById('ref-name').value.trim();
+            const learned = document.getElementById('ref-learned').value.trim();
+            const liked = document.getElementById('ref-liked').value.trim();
+            const mood = document.querySelector('input[name="ref-mood"]:checked').value;
+
+            const wall = document.getElementById('reflection-wall');
+            const card = document.createElement('div');
+            card.className = "bg-white border-2 border-pink-300 rounded-2xl p-3.5 shadow-sm space-y-1.5 animate-hop";
+            card.innerHTML = `
+                <div class="flex items-center justify-between">
+                    <span class="font-extrabold text-xs text-pink-800">🐰 ${escapeHtml(name)}</span>
+                    <span class="text-[11px] font-bold bg-pink-100 text-pink-800 px-2 py-0.5 rounded-full">${mood}</span>
+                </div>
+                <p class="text-xs font-bold text-slate-700">"Hari ini saya belajar <u>${escapeHtml(learned)}</u>."</p>
+                <p class="text-xs font-bold text-slate-700">"Saya suka aktiviti <u>${escapeHtml(liked)}</u>."</p>
+            `;
+
+            wall.prepend(card);
+            playSound('correct');
+            showToast("Kad reflektif kamu berjaya ditampal pada papan kelas!", "📌");
+
+            document.getElementById('ref-name').value = "";
+            document.getElementById('ref-learned').value = "";
+            document.getElementById('ref-liked').value = "";
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
+        }
+
+        // --- INISIALISASI SEMASA HALAMAN DIMUATKAN ---
+        window.onload = function() {
+            newBunnyQuestion();
+        };
+        window.addEventListener('resize', drawHopArcs);
+    </script>
+</body>
+</html>
